@@ -8,26 +8,31 @@ import javax.swing.text.*;
 
 
 public class MainMenu2 extends JFrame {
+	
+	//Login Splash Page
 	Container c = getContentPane();
 	JPanel PFlightTypes = new JPanel(null);
-	JPanel PLogin = new JPanel(null);
+	JPanel Login = new JPanel(null);
 	JPanel PFlightDetails = new JPanel(null);
-
-	public boolean bCheck=true;
+	
+	//Log In Status
+	public boolean logCheck=true;
 
 	JLabel LDomesticFlight = new JLabel("<html><B>Domestic Flights</B></html>");
 	JLabel LInternationalFlight = new JLabel("<html><B>International Flights</B></html>");
 
-	JLabel LUserName, LPassword;
+	JLabel LUser, LPwd;
 
 	JLabel LDomesticFlight1 = new JLabel("<html><B>Domestic Flight Booking</B></html>");
 	JLabel LInternationalFlight1 = new JLabel("<html><B>International Flight Booking</B></html>");
+	
+	//Credentials Entered In these field
+	JTextField TFUser;
+	JPasswordField TPPword;
 
-	JTextField TFUserName;
-	JPasswordField TPPassword;
-
-	JButton BLogin;
-
+	JButton BSignIn;
+	
+	//Table & parameters created
 	final Object[] col1 ={ "From", "To", "Price", "Time" };
 	final Object[] col2 = { "From", "To", "Price", "Time" };
 	final Object[] col3 = { "From", "To", "Price", "Time" };
@@ -63,7 +68,7 @@ public class MainMenu2 extends JFrame {
 		setPreferredSize(new Dimension(796,572));
 
 		PFlightTypes.setBackground(Color.white);
-		PLogin.setBackground(Color.white);
+		Login.setBackground(Color.pink);
 		PFlightDetails.setBackground(Color.white);
 
 		JSP1.setBounds(0, 340, 790, 200);
@@ -72,30 +77,30 @@ public class MainMenu2 extends JFrame {
 		JSP4.setBounds(0, 340, 790, 200);
 
 		PFlightTypes.setBounds(0,0,500, 340);
-		PLogin.setBounds(500,0,350, 340);
+		Login.setBounds(500,0,350, 340);
 		PFlightDetails.setBounds(0,340,790,200);
 
 
-		LUserName = new JLabel("         User Name ");
-		LPassword = new JLabel("         Password ");
-		TFUserName = new JTextField(10);
-		TPPassword = new JPasswordField(10);
-		BLogin = new JButton("Sign In");
+		LUser = new JLabel("Username: ");
+		LPwd = new JLabel("Password: ");
+		TFUser = new JTextField(10);
+		TPPword = new JPasswordField(10);
+		BSignIn = new JButton("Log In");
 
-		LUserName.setBounds(40, 100, 100, 21);
-		LPassword.setBounds(40, 140, 100, 21);
-		TFUserName.setBounds(160, 100, 100, 21);
-		TPPassword.setBounds(160, 140, 100, 21);
-		BLogin.setBounds(160, 200, 100,25);
+		LUser.setBounds(40, 100, 100, 21);
+		LPwd.setBounds(40, 140, 100, 21);
+		TFUser.setBounds(160, 100, 100, 21);
+		TPPword.setBounds(160, 140, 100, 21);
+		Login.setBounds(160, 200, 100,25);
 
 		LDomesticFlight1.setBounds(60, 60, 138, 20);
 		LInternationalFlight1.setBounds(60, 100, 153, 20);
 
-		PLogin.add(LUserName);
-		PLogin.add(TFUserName);
-		PLogin.add(LPassword);
-		PLogin.add(TPPassword);
-		PLogin.add(BLogin);
+		Login.add(LUser);
+		Login.add(TFUser);
+		Login.add(LPwd);
+		Login.add(TPPword);
+		Login.add(BSignIn);
 
 		PFlightDetails.add(JSP1);
 		PFlightDetails.add(JSP2);
@@ -127,7 +132,7 @@ public class MainMenu2 extends JFrame {
 		LInternationalFlight.setBounds(60, 100, 120, 25);
 
 		c.add(PFlightTypes);
-		c.add(PLogin);
+		c.add(Login);
 		c.add(PFlightDetails);
 
 		PFlightTypes.add(LDomesticFlight);
@@ -147,7 +152,7 @@ public class MainMenu2 extends JFrame {
 		LBusiness1.addMouseListener(new mouse2(this, true));
 		LEconomic1.addMouseListener(new mouse2(this, false));
 
-		BLogin.addActionListener(new button1(this));
+		BSignIn.addActionListener(new button1(this));
 	}
 
 	public static void main(String args[])
@@ -170,18 +175,18 @@ class button1 implements ActionListener
 	}
 	public void actionPerformed(ActionEvent e)
 	{
-		cCheck=type.TPPassword.getPassword();
-		sCheck = type.TFUserName.getText();
+		cCheck=type.TPPword.getPassword();
+		sCheck = type.TFUser.getText();
 		if ((sCheck1.equals(sCheck)) && check())
 		{
-			type.PLogin.add(type.LDomesticFlight1);
-			type.PLogin.add(type.LInternationalFlight1);
+			type.Login.add(type.LDomesticFlight1);
+			type.Login.add(type.LInternationalFlight1);
 
-			type.PLogin.remove(type.LUserName);
-			type.PLogin.remove(type.TFUserName);
-			type.PLogin.remove(type.LPassword);
-			type.PLogin.remove(type.TPPassword);
-			type.PLogin.remove(type.BLogin);
+			type.Login.remove(type.LUser);
+			type.Login.remove(type.TFUser);
+			type.Login.remove(type.LPwd);
+			type.Login.remove(type.TPPword);
+			type.Login.remove(type.BSignIn);
 
 			type.c.repaint();
 		}
@@ -221,9 +226,9 @@ class mouse1 extends MouseAdapter
 	public void mouseClicked(MouseEvent e)
 	{
 		if(bCheck)
-			type.bCheck = true;
+			type.logCheck = true;
 		else
-			type.bCheck = false;
+			type.logCheck = false;
 		type.LEconomic.setVisible(true);
 		type.LBusiness1.setVisible(true);
 		type.LEconomic1.setVisible(false);
@@ -270,12 +275,12 @@ class mouse3 extends MouseAdapter
 class mouse2 extends MouseAdapter
 {
 	MainMenu2 type;
-	boolean bCheck;
+	boolean yerCheck;
 
-	public mouse2(MainMenu2 type, boolean bCheck)
+	public mouse2(MainMenu2 type, boolean yerCheck)
 	{
 		this.type = type;
-		this.bCheck = bCheck;
+		this.yerCheck = yerCheck;
 	}
 	public void mouseEntered(MouseEvent e)
 	{
@@ -284,9 +289,9 @@ class mouse2 extends MouseAdapter
 	}
 	public void mouseClicked(MouseEvent e)
 	{
-		if(type.bCheck)
+		if(type.logCheck)
 		{
-			if (bCheck)
+			if (yerCheck)
 			{
 				type.LBusiness1.setVisible(false);
 				type.LBusiness.setVisible(true);
@@ -311,7 +316,7 @@ class mouse2 extends MouseAdapter
 		}
 		else
 		{
-			if (bCheck)
+			if (yerCheck)
 			{
 				type.LBusiness1.setVisible(false);
 				type.LBusiness.setVisible(true);
