@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entirejFramework>
+    <renderer>
+        <formRenderers>
+            <renderer name="Form" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.form.definition.EJFXFormRendererDefinition"/>
+        </formRenderers>
+        <blockRenderers>
+            <renderer name="MultiRecord" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.block.definition.EJFXMultiRecordBlockDefinition"/>
+            <renderer name="SingleRecord" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.block.definition.EJFXSingleRecordBlockDefinition"/>
+            <renderer name="TreeRecord" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.block.definition.EJFXTreeRecordBlockDefinition"/>
+            <renderer name="TreeTableRecord" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.block.definition.EJFXTreeTableRecordBlockDefinition"/>
+        </blockRenderers>
+        <itemRenderers>
+            <renderer name="TextItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXTextItemRendererDefinition">
+            </renderer>
+            <renderer name="ButtonItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXButtonItemRendererDefinition">
+            </renderer>
+            <renderer name="LabelItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXLabelItemRendererDefinition">
+            </renderer>
+            <renderer name="NumberItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXNumberItemRendererDefinition">
+            </renderer>
+            <renderer name="DateItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXDateItemRendererDefinition">
+            </renderer>
+            <renderer name="DateTimeItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXDateTimeItemRendererDefinition">
+            </renderer>
+            <renderer name="CheckBoxItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXCheckBoxRendererDefinition">
+            </renderer>
+            <renderer name="ComboItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXComboBoxRendererDefinition">
+            </renderer>
+            <renderer name="TextAreaItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXTextAreaRendererDefinition">
+            </renderer>
+            <renderer name="ImageItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXImageItemRendererDefinition">
+            </renderer>
+            <renderer name="RadioItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXRadioGroupItemRendererDefinition">
+            </renderer>
+            <renderer name="FileChooserItem" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.item.definition.EJFXFileChooserItemRendererDefinition">
+            </renderer>
+        </itemRenderers>
+        <lovRenderers>
+            <renderer name="Standard" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.lov.definition.EJFXStandardLovRendererDefinition"/>
+            <renderer name="Lookup" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.lov.definition.EJFXLookupFormLovRendererDefinition"/>
+        </lovRenderers>
+        <menuRenderers>
+        </menuRenderers>
+        <appCompRenderers>
+            <renderer name="SingleFormContainer" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXSingleFormRendererDefinition"/>
+            <renderer name="Banner" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXBannerRendererDefinition"/>
+            <renderer name="StatusBar" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXStatusBarRendererDefinition"/>
+            <renderer name="TabFormContainer" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXTabFormContainerRendererDefinition"/>
+            <renderer name="StackedFormContainer" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXStackedFormContainerRendererDefinition"/>
+            <renderer name="FormToolBar" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXFormToolBarRendererDefinition"/>
+            <renderer name="MenuTree" group="" rendererDefinitionClassName="org.entirej.applicationframework.fx.renderers.application.EJFXMenuTreeRendererDefinition"/>
+        </appCompRenderers>
+    </renderer>
+</entirejFramework>
