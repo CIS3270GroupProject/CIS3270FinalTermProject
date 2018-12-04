@@ -82,6 +82,7 @@ public class MainMenu extends JFrame {
 			}
 		});
 		Login.add(btnNewButton);
+		//1000330
 	}
 
 	class button1 implements ActionListener
