@@ -19,6 +19,10 @@ import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -166,10 +170,10 @@ public class Registration extends JFrame {
 		lblSsn.setBounds(353, 315, 46, 14);
 		contentPane.add(lblSsn);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"What is your mother's maiden name?", "What street did you grow up on?", "What was your first pet's name?"}));
-		comboBox.setBounds(131, 359, 208, 23);
-		contentPane.add(comboBox);
+		JComboBox comboBoxSecurityQues = new JComboBox();
+		comboBoxSecurityQues.setModel(new DefaultComboBoxModel(new String[] {"What is your mother's maiden name?", "What street did you grow up on?", "What was your first pet's name?"}));
+		comboBoxSecurityQues.setBounds(131, 359, 208, 23);
+		contentPane.add(comboBoxSecurityQues);
 		
 		JLabel lblNewLabel = new JLabel("Security Question:");
 		lblNewLabel.setBounds(27, 361, 94, 19);
@@ -192,12 +196,11 @@ public class Registration extends JFrame {
 		JButton btnNewButton = new JButton("Create Account");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, "Account Creation Successful");
+						dispose();
+						LogIn login = new LogIn();
+						login.open();;
 				
-				
-				JOptionPane.showMessageDialog(null, "Account Creation Successful");
-				dispose();
-				LogIn login = new LogIn();
-				login.open();
 			}
 		});
 		btnNewButton.setBounds(375, 359, 120, 29);
