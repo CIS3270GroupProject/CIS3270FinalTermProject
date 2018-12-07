@@ -99,6 +99,7 @@ public class LogIn extends JFrame {
 		JButton btnNewButton_2 = new JButton("Registration");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			@Override
+			//Opens registration page
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				Registration acctCreate = new Registration();
