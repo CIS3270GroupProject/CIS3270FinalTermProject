@@ -1,11 +1,15 @@
 package gui2;
 
 import java.awt.BorderLayout;
+import java.util.Scanner;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.mysql.jdbc.Connection;
+
 import java.awt.Rectangle;
 import java.awt.Dimension;
 import javax.swing.JButton;
@@ -25,6 +29,9 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LogIn extends JFrame {
 	
@@ -57,7 +64,8 @@ public class LogIn extends JFrame {
 			}
 		}
 		});
-	}
+	}	
+	
 	public void open() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -71,6 +79,8 @@ public class LogIn extends JFrame {
 			}
 			});
 		}
+//	MyConnection app = new MyConnection();
+//	app.insertSQL(username_field.getUsername(), password_field.getPassword());
 	/**
 	 * Create the frame.
 	 */
@@ -78,7 +88,7 @@ public class LogIn extends JFrame {
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 669, 329);
+		setBounds(100, 100, 834, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -92,10 +102,10 @@ public class LogIn extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnNewButton_1.setBounds(429, 251, 89, 23);
+		btnNewButton_1.setBounds(509, 368, 95, 37);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Registration");
+		JButton btnNewButton_2 = new JButton("Register");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			@Override
 			//Opens registration page
@@ -106,28 +116,29 @@ public class LogIn extends JFrame {
 				open();
 				
 			}
-
+	
 		});
-		btnNewButton_2.setBounds(276, 251, 99, 23);
+	
+		btnNewButton_2.setBounds(338, 368, 123, 37);
 		contentPane.add(btnNewButton_2);
 		
 		tfUser = new JTextField();
-		tfUser.setBounds(180, 84, 279, 37);
+		tfUser.setBounds(325, 172, 279, 37);
 		contentPane.add(tfUser);
 		tfUser.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setFont(new Font("Gautami", Font.BOLD, 16));
-		lblUsername.setBounds(63, 89, 81, 26);
+		lblUsername.setFont(new Font("Dialog", Font.BOLD, 19));
+		lblUsername.setBounds(150, 152, 131, 51);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("Gautami", Font.BOLD, 16));
-		lblPassword.setBounds(63, 172, 81, 26);
+		lblPassword.setFont(new Font("Dialog", Font.BOLD, 19));
+		lblPassword.setBounds(150, 249, 131, 37);
 		contentPane.add(lblPassword);
 		
 		pfPswd = new JPasswordField();
-		pfPswd.setBounds(180, 161, 279, 37);
+		pfPswd.setBounds(325, 249, 279, 37);
 		contentPane.add(pfPswd);
 		
 		JLabel lblAtlasAirlines = new JLabel("Atlas Airlines");
@@ -135,19 +146,22 @@ public class LogIn extends JFrame {
 		lblAtlasAirlines.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblAtlasAirlines.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAtlasAirlines.setFont(new Font("Gautami", Font.BOLD, 24));
-		lblAtlasAirlines.setBounds(204, 35, 209, 38);
+		lblAtlasAirlines.setBounds(274, 65, 224, 51);
 		contentPane.add(lblAtlasAirlines);
 		
 		JButton btnNewButton = new JButton("Log In");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(tfUser.getText().equals("test") && pfPswd.getPassword().equals("works"))
+				int customerId = isLoginCredentialsCorrect( tfUser.getText(),String.valueOf(pfPswd.getPassword()));
+				if(customerId != -1)
 				{
 					JOptionPane.showMessageDialog(null, "Login Successful");
 					MainMenu leMain = new MainMenu();
 					dispose();
 					leMain.open();
+					LogIn.customerId = customerId;
+					//Flights.openAvailable();
 					
 				} else
 				{
@@ -155,8 +169,73 @@ public class LogIn extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(132, 251, 89, 23);
+		btnNewButton.setBounds(180, 368, 113, 37);
 		contentPane.add(btnNewButton);
+		
+	}
+	
+	public static int customerId = -1;
+	private void insertQuery(String username, String password) {
+		String updateSQL = "INSERT INTO customer VALUES(0,0,\"\",\"\",\"\",\"\",\"\",0,\"username\",\"password\",00000,\"\",\"\");";
+		try {
+		java.sql.Connection conn = MyConnection.getConnection();
+		PreparedStatement prstm= conn.prepareStatement(updateSQL);
+		prstm.setString(9, username);
+		prstm.setString(10, password);
+		prstm.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("Insert failed");
+		}
+		
+	}
+	
+	private int isLoginCredentialsCorrect(String username, String password) {
+		String selectQuery = "Select * from customer where username_field = '"+username+"' and password_field = '"+password+"';";
+		
+		java.sql.Connection conn = null;
+		PreparedStatement prstm= null;
+		ResultSet rs  = null;
+		
+		try {
+			 conn = MyConnection.getConnection();
+			 prstm= conn.prepareStatement(selectQuery);
+			 rs = prstm.executeQuery();
+			 if(rs.next()) {
+				//rs.beforeFirst();
+				return rs.getInt(1);
+			}
+			return -1;
+		}
+		catch(Exception e) {
+			return -1;
+		}
+		finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}
+				catch(Exception ioe) {
+					
+				}
+			}
+			if(prstm != null) {
+				try {
+					prstm.close();
+				}
+				catch(Exception ioe) {
+					
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				}
+				catch(Exception ioe) {
+					
+				}
+			}
+		}
 		
 	}
 }

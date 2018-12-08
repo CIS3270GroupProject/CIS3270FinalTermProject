@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -57,10 +60,35 @@ public class MainMenu extends JFrame {
 		JButton btnAvailableFlights = new JButton("Available Flights");
 		btnAvailableFlights.setBounds(47, 96, 129, 47);
 		contentPane.add(btnAvailableFlights);
+		btnAvailableFlights.addActionListener(new ActionListener() {
+			@Override
+			//Opens registration page
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				frame.dispose();
+				Flights.openAvailable();
+				
+				open();
+				
+			}
+	
+		});
+		
 		
 		JButton btnMyBookedFlights = new JButton("My Booked Flights");
 		btnMyBookedFlights.setBounds(279, 96, 129, 47);
 		contentPane.add(btnMyBookedFlights);
+		btnMyBookedFlights.addActionListener(new ActionListener() {
+			@Override
+			//Opens registration page
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				Registration acctCreate = new Registration();
+				frame.dispose();
+				open();
+			}
+			
+		});
 		
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
