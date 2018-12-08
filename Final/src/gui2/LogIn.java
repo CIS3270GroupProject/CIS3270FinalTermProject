@@ -31,13 +31,13 @@ public class LogIn extends JFrame {
 	private JFrame frame = new JFrame();
 
 	private JPanel contentPane;
-	private JTextField TFUser;
-	private JPasswordField PFPswd;
+	private JTextField tfUser;
+	private JPasswordField pfPswd;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		
 		//native system look implemented
 		try {
@@ -46,32 +46,31 @@ public class LogIn extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LogIn frame = new LogIn();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		public void run() {
+			try {
+				LogIn frame = new LogIn();
+				frame.setVisible(true);
 			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+		}
 		});
 	}
-	
 	public void open() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LogIn frame = new LogIn();
+					LogIn Frame = new LogIn();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				}
+				catch (Exception e){
 					e.printStackTrace();
 				}
 			}
-		});
-	}
-
+			});
+		}
 	/**
 	 * Create the frame.
 	 */
@@ -103,7 +102,8 @@ public class LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				Registration acctCreate = new Registration();
-				acctCreate.open();
+				frame.dispose();
+				open();
 				
 			}
 
@@ -111,10 +111,10 @@ public class LogIn extends JFrame {
 		btnNewButton_2.setBounds(276, 251, 99, 23);
 		contentPane.add(btnNewButton_2);
 		
-		TFUser = new JTextField();
-		TFUser.setBounds(180, 84, 279, 37);
-		contentPane.add(TFUser);
-		TFUser.setColumns(10);
+		tfUser = new JTextField();
+		tfUser.setBounds(180, 84, 279, 37);
+		contentPane.add(tfUser);
+		tfUser.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setFont(new Font("Gautami", Font.BOLD, 16));
@@ -126,9 +126,9 @@ public class LogIn extends JFrame {
 		lblPassword.setBounds(63, 172, 81, 26);
 		contentPane.add(lblPassword);
 		
-		PFPswd = new JPasswordField();
-		PFPswd.setBounds(180, 161, 279, 37);
-		contentPane.add(PFPswd);
+		pfPswd = new JPasswordField();
+		pfPswd.setBounds(180, 161, 279, 37);
+		contentPane.add(pfPswd);
 		
 		JLabel lblAtlasAirlines = new JLabel("Atlas Airlines");
 		lblAtlasAirlines.setVerticalAlignment(SwingConstants.TOP);
@@ -142,7 +142,7 @@ public class LogIn extends JFrame {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(TFUser.getText().equals("test") && PFPswd.getText().equals("works"))
+				if(tfUser.getText().equals("test") && pfPswd.getPassword().equals("works"))
 				{
 					JOptionPane.showMessageDialog(null, "Login Successful");
 					MainMenu leMain = new MainMenu();
