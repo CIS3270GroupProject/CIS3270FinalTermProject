@@ -8,7 +8,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.ButtonGroup;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -22,6 +24,12 @@ public class Flights extends JFrame {
 	private final ButtonGroup flightMenuGroup = new ButtonGroup();
 	private boolean isAdmin = false;
 	private int menuType = 0;
+	
+	
+	
+	JComboBox<String> comFlightNumbers=new JComboBox<String>();
+
+	JComboBox<String> comCustomer=new JComboBox<String>();
 
 	/**
 	 * Launch the application.
@@ -61,6 +69,8 @@ public class Flights extends JFrame {
 	 * Create the frame.
    */
 	public Flights() {
+		final String [] headers =
+			{"Flight Number","Departure Time", "Arrival Time","Departure City", "Arrival City", "Seats Available"};
 		setUndecorated(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,26 +79,18 @@ public class Flights extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		Vector rows = new Vector();
-		Vector<String> headers = new Vector();
-		headers.addElement("Flight Number");
-		headers.addElement("Departure Time");
-		headers.addElement("Arrival Time");
-		headers.addElement("Departure City");
-		headers.addElement("Arrival City");
-		headers.addElement("Seats Available");
-;
 
+	
+	
 JButton btnRemove = new JButton("Remove Flight");
-btnRemove.setBounds(20, 149, 127, 38);
+btnRemove.setBounds(20, 149, 168, 38);
 contentPane.add(btnRemove);
 
-		
-		table = new JTable(rows, headers);
+
+		table = new JTable(null, headers);
 		table.setBounds(300, 300, 600, 600);
 		contentPane.add(table);
-		//test
+		JScrollPane scrollPane = new JScrollPane(table);
 		JButton btnBook = new JButton("Book Flight");
 		btnBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -101,27 +103,27 @@ contentPane.add(btnRemove);
 					bookFlight(selectedRow);
 			}
 		});
-		btnBook.setBounds(20, 100, 127, 38);
+		btnBook.setBounds(20, 100, 168, 38);
 		contentPane.add(btnBook);
 		
 		
 		JPanel panelAdmin = new JPanel();
-		panelAdmin.setVisible(false);
-		panelAdmin.setBounds(20, 217, 127, 166);
+		panelAdmin.setVisible(true);
+		panelAdmin.setBounds(20, 217, 180, 166);
 		contentPane.add(panelAdmin);
 		panelAdmin.setLayout(null);
 		
 		JButton btnAdd = new JButton("Add Flight");
-		btnAdd.setBounds(0, 11, 127, 38);
+		btnAdd.setBounds(0, 11, 166, 38);
 		panelAdmin.add(btnAdd);
 		
 		
 		JButton btnUpdate = new JButton("Update Flight");
-		btnUpdate.setBounds(0, 60, 127, 38);
+		btnUpdate.setBounds(0, 60, 166, 38);
 		panelAdmin.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Delete Flight");
-		btnDelete.setBounds(0, 109, 127, 38);
+		btnDelete.setBounds(0, 109, 166, 38);
 		panelAdmin.add(btnDelete);
 		
 		JRadioButton rdbtnAvail = new JRadioButton("Available Flights");
@@ -135,7 +137,7 @@ contentPane.add(btnRemove);
 			}
 		});
 		flightMenuGroup.add(rdbtnAvail);
-		rdbtnAvail.setBounds(20, 31, 109, 23);
+		rdbtnAvail.setBounds(20, 31, 154, 23);
 		contentPane.add(rdbtnAvail);
 		
 		JRadioButton rdbtnBooked = new JRadioButton("Booked Flights");
@@ -146,10 +148,26 @@ contentPane.add(btnRemove);
 				btnBook.setEnabled(false);
 			}
 		});
-		flightMenuGroup.add(rdbtnBooked);
-		rdbtnBooked.setBounds(20, 57, 109, 23);
-		contentPane.add(rdbtnBooked);
 		
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				menuType = 2;
+String selFlight=	comFlightNumbers.getSelectedItem().toString();
+
+String selCustomer=	comCustomer.getSelectedItem().toString();
+
+queryAvailableFlights();
+			}
+		});
+		flightMenuGroup.add(rdbtnBooked);
+		rdbtnBooked.setBounds(20, 57, 168, 23);
+		contentPane.add(rdbtnBooked);
+		comFlightNumbers.setBounds(200, 180, 250, 38);
+		contentPane.add(comFlightNumbers);
+		comCustomer.setBounds(200, 230, 250, 38);
+		contentPane.add(comCustomer);
+		
+		btnDelete.setBounds(0, 109, 166, 38);
 		JButton btnMainMenu = new JButton("Main Menu");
 		btnMainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,9 +176,27 @@ contentPane.add(btnRemove);
 				dispose();
 			}
 		});
-		btnMainMenu.setBounds(20, 394, 127, 38);
-		contentPane.add(btnMainMenu);		
+		btnMainMenu.setBounds(20, 394, 168, 38);
+		contentPane.add(btnMainMenu);	
+		queryAvailableFlights();
+		queryCustomer();
 	}
+	
+	private void insertBooking(String flightNum,Integer customerID) {
+		String selectQuery = "INSERT INTO bookings values ("+flightNum+","+customerID +");";
+		
+		java.sql.Connection conn = null;
+		PreparedStatement prstm= null;
+		ResultSet rs  = null;
+		
+		try {
+			 conn = MyConnection.getConnection();
+			 prstm= conn.prepareStatement(selectQuery);
+			 rs = prstm.executeQuery();
+			 }
+		catch (Exception ex) {}
+		finally {}
+		}
 	
 	private void queryAvailableFlights() {
 		String selectQuery = "Select * from flights;";
@@ -173,15 +209,23 @@ contentPane.add(btnRemove);
 			 conn = MyConnection.getConnection();
 			 prstm= conn.prepareStatement(selectQuery);
 			 rs = prstm.executeQuery();
-			
-			 DefaultTableModel model = (DefaultTableModel) table.getModel();
+			 final String [] headers =
+					{"Flight Number","Departure Time", "Arrival Time","Departure City", "Arrival City", "Seats Available"};
+			 DefaultTableModel model = new DefaultTableModel(headers, 0);
+			 model.setRowCount(0);
 			 while(rs.next()) {
-				model.addRow( new Object[] {rs.getFloat(0), rs.getTime(1), rs.getTime(2), rs.getString(3), rs.getString(4), rs.getFloat(5)});
+				//model.addRow( new Object[] {rs.getFloat(0), rs.getTime(1), rs.getTime(2), rs.getString(3), rs.getString(4), rs.getFloat(5)});
+				comFlightNumbers.addItem(rs.getString("flight_num"));
+	
 			 }
+		table.setModel(model);
+				table.setVisible(true);
+			 getContentPane().validate();
+			 getContentPane().repaint();
 			
 		}
 		catch(Exception e) {
-			
+			System.out.println("Query did not run " + e);
 		}
 		finally {
 			if(rs != null) {
@@ -210,6 +254,61 @@ contentPane.add(btnRemove);
 			}
 		}
 	}
+	
+	private void queryCustomer() {
+		String selectQuery = "Select * from customer;";
+		
+		java.sql.Connection conn = null;
+		PreparedStatement prstm= null;
+		ResultSet rs  = null;
+		
+		try {
+			 conn = MyConnection.getConnection();
+			 prstm= conn.prepareStatement(selectQuery);
+			 rs = prstm.executeQuery();
+//			 final String [] headers =
+	//				{"Flight Number","Departure Time", "Arrival Time","Departure City", "Arrival City", "Seats Available"};
+		//	 DefaultTableModel model = new DefaultTableModel(headers, 0);
+			 while(rs.next()) {
+				//model.addRow( new Object[] {rs.getFloat(0), rs.getTime(1), rs.getTime(2), rs.getString(3), rs.getString(4), rs.getFloat(5)});
+				comCustomer.addItem(rs.getString("newcustomerid"));// rs.getString("first_name")+rs.getString("last_name"));
+	
+			 }
+			 getContentPane().validate();
+			 getContentPane().repaint();
+			
+		}
+		catch(Exception e) {
+			System.out.println("Query did not run " + e);
+		}
+		finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}
+				catch(Exception ioe) {
+					
+				}
+			}
+			if(prstm != null) {
+				try {
+					prstm.close();
+				}
+				catch(Exception ioe) {
+					
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				}
+				catch(Exception ioe) {
+					
+				}
+			}
+		}
+	}
+	
 	
 	private void bookFlight(int selectedRow) {
 		java.sql.Connection conn = null;

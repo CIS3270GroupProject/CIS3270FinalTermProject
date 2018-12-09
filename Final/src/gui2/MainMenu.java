@@ -65,9 +65,8 @@ public class MainMenu extends JFrame {
 			//Opens registration page
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				frame.dispose();
 				Flights.openAvailable();
-				
+				frame.dispose();
 				open();
 				
 			}
